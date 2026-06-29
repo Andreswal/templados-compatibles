@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Compatibilidad de Vidrios Templados</title>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f6f8;
+    --surface: #ffffff;
+    --surface2: #f0f2f5;
+    --border: #e2e5ea;
+    --border-strong: #c8cdd6;
+    --text: #1a1d23;
+    --text2: #5a6072;
+    --text3: #9098a9;
+    --accent: #2563eb;
+    --accent-bg: #eff4ff;
+    --accent-border: #bfcffe;
+    --success-bg: #f0fdf4;
+    --success-text: #16a34a;
+    --success-border: #bbf7d0;
+    --warning-bg: #fffbeb;
+    --warning-text: #b45309;
+    --warning-border: #fde68a;
+    --danger-bg: #fef2f2;
+    --danger-text: #dc2626;
+    --danger-border: #fecaca;
+    --radius: 8px;
+    --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  /* Header */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow);
+  }
+  .header-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 56px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .logo-icon {
+    width: 32px; height: 32px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 16px;
+  }
+  .logo-sub { font-size: 12px; color: var(--text3); font-weight: 400; display: block; line-height: 1; }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 2px;
+    margin-left: auto;
+    background: var(--surface2);
+    border-radius: var(--radius);
+    padding: 3px;
+  }
+  .tab {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--text2);
+    transition: all .15s;
+  }
+  .tab.active {
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 1px 3px rgba(0,0,0,.1);
+  }
+  .tab:hover:not(.active) { color: var(--text); }
+
+  /* Main */
+  .main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  /* Sections */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* Cards */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+  .card + .card { margin-top: 1rem; }
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title svg { color: var(--accent); }
+
+  /* Search */
+  .search-wrap { position: relative; margin-bottom: 1.5rem; }
+  .search-row { display: flex; gap: 8px; }
+  .search-input-wrap { position: relative; flex: 1; }
+  .search-input {
+    width: 100%;
+    padding: 11px 16px 11px 40px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--radius);
+    font-size: 15px;
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+    transition: border-color .15s;
+  }
+  .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,.1); }
+  .search-icon {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    color: var(--text3); pointer-events: none;
+  }
+  .btn-search {
+    padding: 11px 20px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .15s;
+  }
+  .btn-search:hover { background: #1d4ed8; }
+
+  /* Suggestions */
+  .suggestions {
+    position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 24px rgba(0,0,0,.1);
+    z-index: 50;
+    overflow: hidden;
+    display: none;
+  }
+  .sugg-item {
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .sugg-item:hover, .sugg-item.sel { background: var(--accent-bg); color: var(--accent); }
+  .sugg-item svg { color: var(--text3); flex-shrink: 0; }
+
+  /* Results */
+  .result-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .result-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--accent-bg);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .result-phone-icon {
+    width: 40px; height: 40px;
+    background: var(--accent);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 18px; flex-shrink: 0;
+  }
+  .result-model { font-size: 17px; font-weight: 600; }
+  .result-sub { font-size: 13px; color: var(--text2); margin-top: 2px; }
+  .result-body { padding: 1.25rem 1.5rem; }
+  .compat-label {
+    font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .05em; color: var(--text3); margin-bottom: 10px;
+  }
+  .compat-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    background: var(--success-bg);
+    color: var(--success-text);
+    border: 1px solid var(--success-border);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .chip svg { width: 12px; height: 12px; }
+  .group-section { margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border); }
+  .group-section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .group-name-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 4px 10px;
+    font-size: 12px; color: var(--text2); margin-bottom: 10px;
+  }
+  .alone-box {
+    background: var(--warning-bg);
+    border: 1px solid var(--warning-border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--warning-text);
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .not-found {
+    text-align: center; padding: 2.5rem 1rem;
+    color: var(--text2); font-size: 14px;
+  }
+  .not-found strong { color: var(--text); }
+
+  /* Admin grid */
+  .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media(max-width: 600px) { .admin-grid { grid-template-columns: 1fr; } }
+  .full { grid-column: 1 / -1; }
+
+  /* Form elements */
+  .form-group { margin-bottom: 12px; }
+  .form-label { font-size: 12px; font-weight: 600; color: var(--text2); display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: .04em; }
+  .form-input, .form-select {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    font-size: 14px;
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+    transition: border-color .15s;
+    font-family: inherit;
+  }
+  .form-input:focus, .form-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,.1); }
+
+  /* Buttons */
+  .btn {
+    padding: 8px 14px; border-radius: var(--radius); font-size: 13px;
+    font-weight: 500; cursor: pointer; border: 1px solid var(--border-strong);
+    background: var(--surface); color: var(--text); font-family: inherit;
+    transition: all .15s; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn:hover { background: var(--surface2); }
+  .btn-primary { background: var(--accent); color: white; border-color: transparent; }
+  .btn-primary:hover { background: #1d4ed8; }
+  .btn-danger { background: var(--danger-bg); color: var(--danger-text); border-color: var(--danger-border); }
+  .btn-danger:hover { background: #fee2e2; }
+  .btn-sm { padding: 4px 10px; font-size: 12px; }
+  .btn-full { width: 100%; justify-content: center; }
+
+  /* Model list */
+  .model-list { max-height: 260px; overflow-y: auto; }
+  .model-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 14px;
+  }
+  .model-item:last-child { border-bottom: none; }
+
+  /* Group list */
+  .group-list { max-height: 300px; overflow-y: auto; }
+  .group-item {
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 10px 12px; margin-bottom: 8px; background: var(--surface2);
+  }
+  .group-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .group-item-name { font-size: 13px; font-weight: 600; }
+  .group-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .group-chip {
+    font-size: 11px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 999px; padding: 2px 8px; color: var(--text2);
+  }
+
+  /* Toggle chips for group editor */
+  .toggle-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .toggle-chip {
+    padding: 5px 12px; border-radius: 999px; font-size: 12px; cursor: pointer;
+    border: 1px solid var(--border-strong); background: var(--surface); color: var(--text2);
+    transition: all .15s; user-select: none;
+  }
+  .toggle-chip.on {
+    background: var(--accent-bg); color: var(--accent);
+    border-color: var(--accent-border); font-weight: 500;
+  }
+  .toggle-chips-empty { font-size: 13px; color: var(--text3); padding: 8px 0; }
+
+  /* Status messages */
+  .msg { padding: 10px 14px; border-radius: var(--radius); font-size: 13px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .msg-ok { background: var(--success-bg); color: var(--success-text); border: 1px solid var(--success-border); }
+  .msg-err { background: var(--danger-bg); color: var(--danger-text); border: 1px solid var(--danger-border); }
+
+  /* Loading / empty */
+  .loading { text-align: center; padding: 2rem; color: var(--text3); font-size: 14px; }
+  .empty { color: var(--text3); font-size: 13px; padding: 8px 0; }
+
+  /* Connection status */
+  .conn-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #9ca3af; display: inline-block; margin-right: 4px;
+    transition: background .3s;
+  }
+  .conn-dot.ok { background: #22c55e; }
+  .conn-status { font-size: 11px; color: var(--text3); margin-left: auto; display: flex; align-items: center; }
+
+  /* Responsive header */
+  @media(max-width: 480px) {
+    .logo span:last-child { display: none; }
+    .tab { padding: 6px 10px; font-size: 12px; }
+    .main { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">📱</div>
+      <div>
+        <span>Vidrios Templados</span>
+        <span class="logo-sub">Comparador de compatibilidad</span>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('search')">🔍 Buscar</button>
+      <button class="tab" onclick="switchTab('admin')">⚙️ Administrar</button>
+    </div>
+    <div class="conn-status">
+      <span class="conn-dot" id="connDot"></span>
+      <span id="connText">Conectando...</span>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- BÚSQUEDA -->
+  <div class="section active" id="tab-search">
+    <div class="search-wrap">
+      <div class="search-row">
+        <div class="search-input-wrap">
+          <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input class="search-input" type="text" id="searchInput"
+            placeholder="Escribí el modelo de tu teléfono..."
+            autocomplete="off"
+            oninput="onSearchInput()"
+            onkeydown="onSearchKey(event)" />
+          <div class="suggestions" id="suggestions"></div>
+        </div>
+        <button class="btn-search" onclick="doSearch()">Buscar</button>
+      </div>
+    </div>
+    <div id="searchResult"></div>
+  </div>
+
+  <!-- ADMINISTRAR -->
+  <div class="section" id="tab-admin">
+    <div id="adminMsg"></div>
+    <div class="admin-grid">
+
+      <!-- Agregar modelo -->
+      <div class="card">
+        <div class="card-title">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+          Agregar modelo
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nombre del modelo</label>
+          <input class="form-input" type="text" id="newModelName" placeholder="Ej: Samsung Galaxy A54" />
+        </div>
+        <button class="btn btn-primary btn-full" onclick="addModel()">+ Agregar modelo</button>
+      </div>
+
+      <!-- Lista de modelos -->
+      <div class="card">
+        <div class="card-title">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          Modelos cargados
+        </div>
+        <div class="model-list" id="modelList"><div class="loading">Cargando...</div></div>
+      </div>
+
+      <!-- Editor de grupos -->
+      <div class="card full">
+        <div class="card-title">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Grupos de compatibilidad
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+          <div>
+            <div class="form-group">
+              <label class="form-label">Nombre del grupo <span style="font-weight:400;text-transform:none;color:var(--text3)">(opcional)</span></label>
+              <input class="form-input" type="text" id="newGroupName" placeholder='Ej: Borde curvo 6.5" Samsung' />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Modelos compatibles en este grupo</label>
+              <div class="toggle-chips" id="modelToggleChips">
+                <span class="toggle-chips-empty">Primero agregá modelos</span>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:12px">
+              <button class="btn btn-primary" onclick="saveGroup()" id="saveGroupBtn">Guardar grupo</button>
+              <button class="btn" onclick="clearGroupEdit()">Limpiar</button>
+            </div>
+            <p id="editingNote" style="font-size:12px;color:var(--accent);margin-top:8px;display:none">✏️ Editando grupo existente</p>
+          </div>
+          <div>
+            <label class="form-label">Grupos guardados</label>
+            <div class="group-list" id="groupList"><div class="loading">Cargando...</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ── Firebase config ────────────────────────────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyD3qaWDlE7ZYRLDq2ojzXHQuO6ZPy7O98k",
+  authDomain: "templados-compatibles.firebaseapp.com",
+  projectId: "templados-compatibles",
+  storageBucket: "templados-compatibles.firebasestorage.app",
+  messagingSenderId: "468036260146",
+  appId: "1:468036260146:web:877a1222753e4241f8472b",
+  measurementId: "G-YHY9TCFL91"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// ── State ──────────────────────────────────────────────────────
+let models = [];
+let groups = [];
+let selectedModels = new Set();
+let editingGroupId = null;
+let suggIdx = -1;
+
+// ── Connection status ──────────────────────────────────────────
+function setConn(ok) {
+  document.getElementById('connDot').className = 'conn-dot' + (ok ? ' ok' : '');
+  document.getElementById('connText').textContent = ok ? 'Conectado' : 'Sin conexión';
+}
+
+// ── Load data (realtime listeners) ────────────────────────────
+db.collection('models').orderBy('name').onSnapshot(snap => {
+  models = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  setConn(true);
+  renderModelList();
+  renderModelToggleChips();
+}, () => setConn(false));
+
+db.collection('groups').orderBy('createdAt').onSnapshot(snap => {
+  groups = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderGroupList();
+}, () => {});
+
+// ── Tab switching ──────────────────────────────────────────────
+function switchTab(t) {
+  document.querySelectorAll('.tab').forEach((el, i) =>
+    el.classList.toggle('active', ['search','admin'][i] === t));
+  document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + t).classList.add('active');
+}
+
+// ── SEARCH ────────────────────────────────────────────────────
+function norm(s) {
+  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+function getMatches(q) {
+  const nq = norm(q.trim());
+  if (!nq) return [];
+  return models.filter(m => norm(m.name).includes(nq)).map(m => m.name);
+}
+
+function onSearchInput() {
+  const val = document.getElementById('searchInput').value;
+  const box = document.getElementById('suggestions');
+  suggIdx = -1;
+  if (val.length < 2) { box.style.display = 'none'; return; }
+  const matches = getMatches(val).slice(0, 8);
+  if (!matches.length) { box.style.display = 'none'; return; }
+  box.innerHTML = matches.map(m => `
+    <div class="sugg-item" onclick="selectSugg('${m.replace(/'/g,"\\'")}')">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+      ${m}
+    </div>`).join('');
+  box.style.display = 'block';
+}
+
+function onSearchKey(e) {
+  const box = document.getElementById('suggestions');
+  const items = box.querySelectorAll('.sugg-item');
+  if (e.key === 'ArrowDown') { e.preventDefault(); suggIdx = Math.min(suggIdx + 1, items.length - 1); hilite(items); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); suggIdx = Math.max(suggIdx - 1, -1); hilite(items); }
+  else if (e.key === 'Enter') {
+    if (suggIdx >= 0 && items[suggIdx]) items[suggIdx].click();
+    else doSearch();
+    box.style.display = 'none';
+  } else if (e.key === 'Escape') { box.style.display = 'none'; }
+}
+
+function hilite(items) {
+  items.forEach((el, i) => el.classList.toggle('sel', i === suggIdx));
+  if (suggIdx >= 0 && items[suggIdx]) document.getElementById('searchInput').value = items[suggIdx].textContent.trim();
+}
+
+function selectSugg(val) {
+  document.getElementById('searchInput').value = val;
+  document.getElementById('suggestions').style.display = 'none';
+  doSearch();
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search-input-wrap')) document.getElementById('suggestions').style.display = 'none';
+});
+
+function doSearch() {
+  const query = document.getElementById('searchInput').value.trim();
+  const container = document.getElementById('searchResult');
+  document.getElementById('suggestions').style.display = 'none';
+  if (!query) { container.innerHTML = ''; return; }
+
+  const q = norm(query);
+  const found = models.find(m => norm(m.name) === q) || models.find(m => norm(m.name).includes(q));
+
+  if (!found) {
+    container.innerHTML = `
+      <div class="result-card">
+        <div class="not-found">
+          <div style="font-size:2rem;margin-bottom:8px">🔍</div>
+          No se encontró <strong>"${query}"</strong><br>
+          <span style="font-size:13px;margin-top:6px;display:block">Podés agregarlo desde la pestaña <strong>Administrar</strong></span>
+        </div>
+      </div>`;
+    return;
+  }
+
+  const myGroups = groups.filter(g => g.models && g.models.includes(found.name));
+  const othersCount = myGroups.reduce((a, g) => a + (g.models ? g.models.filter(m => m !== found.name).length : 0), 0);
+
+  let html = `
+    <div class="result-card">
+      <div class="result-header">
+        <div class="result-phone-icon">📱</div>
+        <div>
+          <div class="result-model">${found.name}</div>
+          <div class="result-sub">${myGroups.length ? `${othersCount} modelo(s) compatible(s) encontrado(s)` : 'Sin compatibilidades registradas aún'}</div>
+        </div>
+      </div>
+      <div class="result-body">`;
+
+  if (!myGroups.length) {
+    html += `<div class="alone-box">
+      <span style="font-size:1.2rem">⚠️</span>
+      <div>
+        <strong>Sin compatibilidades aún.</strong><br>
+        Este modelo está solo. Podés asignarlo a un grupo existente o crear uno nuevo desde <strong>Administrar → Grupos</strong>.
+      </div>
+    </div>`;
+  } else {
+    myGroups.forEach(g => {
+      const others = g.models ? g.models.filter(m => m !== found.name) : [];
+      html += `<div class="group-section">`;
+      if (g.name) html += `<div class="group-name-tag">📦 ${g.name}</div>`;
+      html += `<div class="compat-label">Comparte vidrio templado con:</div>
+        <div class="compat-chips">`;
+      if (others.length) {
+        others.forEach(m => {
+          html += `<div class="chip">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            ${m}
+          </div>`;
+        });
+      } else {
+        html += `<span style="font-size:13px;color:var(--text3)">Ningún otro modelo en este grupo todavía</span>`;
+      }
+      html += `</div></div>`;
+    });
+  }
+
+  html += `</div></div>`;
+  container.innerHTML = html;
+}
+
+// ── ADMIN: Models ──────────────────────────────────────────────
+function renderModelList() {
+  const el = document.getElementById('modelList');
+  if (!models.length) { el.innerHTML = '<div class="empty">Sin modelos cargados aún.</div>'; return; }
+  el.innerHTML = models.map(m => `
+    <div class="model-item">
+      <span>${m.name}</span>
+      <button class="btn btn-sm btn-danger" onclick="deleteModel('${m.id}','${m.name.replace(/'/g,"\\'")}')">🗑</button>
+    </div>`).join('');
+}
+
+function renderModelToggleChips() {
+  const el = document.getElementById('modelToggleChips');
+  if (!models.length) { el.innerHTML = '<span class="toggle-chips-empty">Primero agregá modelos</span>'; return; }
+  el.innerHTML = models.map(m => {
+    const on = selectedModels.has(m.name);
+    return `<span class="toggle-chip ${on ? 'on' : ''}" onclick="toggleModel('${m.name.replace(/'/g,"\\'")}')">
+      ${on ? '✓ ' : ''}${m.name}
+    </span>`;
+  }).join('');
+}
+
+function toggleModel(name) {
+  if (selectedModels.has(name)) selectedModels.delete(name);
+  else selectedModels.add(name);
+  renderModelToggleChips();
+}
+
+async function addModel() {
+  const input = document.getElementById('newModelName');
+  const name = input.value.trim();
+  if (!name) { showMsg('Ingresá el nombre del modelo.', 'err'); return; }
+  if (models.find(m => norm(m.name) === norm(name))) { showMsg('Ese modelo ya existe.', 'err'); return; }
+  try {
+    await db.collection('models').add({ name, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+    input.value = '';
+    showMsg(`Modelo "${name}" agregado.`, 'ok');
+  } catch(e) { showMsg('Error al guardar. Revisá la conexión.', 'err'); }
+}
+
+async function deleteModel(id, name) {
+  if (!confirm(`¿Eliminar "${name}"?\nSe quitará de todos los grupos.`)) return;
+  try {
+    await db.collection('models').doc(id).delete();
+    // remove from all groups
+    const affected = groups.filter(g => g.models && g.models.includes(name));
+    for (const g of affected) {
+      await db.collection('groups').doc(g.id).update({
+        models: g.models.filter(m => m !== name)
+      });
+    }
+    showMsg('Modelo eliminado.', 'ok');
+  } catch(e) { showMsg('Error al eliminar.', 'err'); }
+}
+
+// ── ADMIN: Groups ─────────────────────────────────────────────
+function renderGroupList() {
+  const el = document.getElementById('groupList');
+  if (!groups.length) { el.innerHTML = '<div class="empty">Sin grupos aún. Creá el primero.</div>'; return; }
+  el.innerHTML = groups.map(g => `
+    <div class="group-item">
+      <div class="group-item-header">
+        <span class="group-item-name">${g.name || 'Grupo sin nombre'}</span>
+        <div style="display:flex;gap:4px">
+          <button class="btn btn-sm" onclick="editGroup('${g.id}')">✏️</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteGroup('${g.id}')">🗑</button>
+        </div>
+      </div>
+      <div class="group-chips">
+        ${(g.models || []).map(m => `<span class="group-chip">${m}</span>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+async function saveGroup() {
+  const name = document.getElementById('newGroupName').value.trim();
+  const modelsList = [...selectedModels];
+  if (modelsList.length < 1) { showMsg('Seleccioná al menos un modelo.', 'err'); return; }
+  try {
+    if (editingGroupId) {
+      await db.collection('groups').doc(editingGroupId).update({ name, models: modelsList });
+      showMsg('Grupo actualizado.', 'ok');
+    } else {
+      await db.collection('groups').add({ name, models: modelsList, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+      showMsg('Grupo creado.', 'ok');
+    }
+    clearGroupEdit();
+  } catch(e) { showMsg('Error al guardar el grupo.', 'err'); }
+}
+
+function editGroup(id) {
+  const g = groups.find(x => x.id === id);
+  if (!g) return;
+  editingGroupId = id;
+  document.getElementById('newGroupName').value = g.name || '';
+  selectedModels = new Set(g.models || []);
+  renderModelToggleChips();
+  document.getElementById('editingNote').style.display = 'block';
+  document.getElementById('saveGroupBtn').textContent = 'Actualizar grupo';
+  document.getElementById('newGroupName').focus();
+}
+
+async function deleteGroup(id) {
+  if (!confirm('¿Eliminar este grupo de compatibilidad?')) return;
+  try {
+    await db.collection('groups').doc(id).delete();
+    showMsg('Grupo eliminado.', 'ok');
+  } catch(e) { showMsg('Error al eliminar el grupo.', 'err'); }
+}
+
+function clearGroupEdit() {
+  editingGroupId = null;
+  selectedModels = new Set();
+  document.getElementById('newGroupName').value = '';
+  document.getElementById('editingNote').style.display = 'none';
+  document.getElementById('saveGroupBtn').textContent = 'Guardar grupo';
+  renderModelToggleChips();
+}
+
+function showMsg(text, type) {
+  const el = document.getElementById('adminMsg');
+  el.innerHTML = `<div class="msg msg-${type}">${type === 'ok' ? '✓' : '⚠'} ${text}</div>`;
+  setTimeout(() => el.innerHTML = '', 3500);
+}
+</script>
+</body>
+</html>
