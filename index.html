@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -217,8 +218,8 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:1
     <p>Credenciales de administrador para gestionar la base de modelos.</p>
     <div class="modal-err" id="loginErr">Usuario o contraseña incorrectos.</div>
     <div class="form-group">
-      <label class="form-label">Usuario</label>
-      <input class="form-input" type="text" id="loginUser" placeholder="Usuario" autocomplete="off" />
+      <label class="form-label">Email</label>
+      <input class="form-input" type="text" id="loginUser" placeholder="awrnow@gmail.com" autocomplete="email" />
     </div>
     <div class="form-group">
       <label class="form-label">Contraseña</label>
@@ -419,30 +420,40 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-const ADMIN_USER="awrnow", ADMIN_PASS="Hernandez226";
-let isAdmin=false;
+const auth = firebase.auth();
+let isAdmin = false;
+
 function openLogin(){ document.getElementById('loginModal').classList.add('open'); setTimeout(()=>document.getElementById('loginUser').focus(),100); }
 function closeLogin(){ document.getElementById('loginModal').classList.remove('open'); document.getElementById('loginErr').style.display='none'; }
-function doLogin(){
-  const u=document.getElementById('loginUser').value.trim();
-  const p=document.getElementById('loginPass').value;
-  if(u===ADMIN_USER&&p===ADMIN_PASS){
-    isAdmin=true; closeLogin();
-    document.getElementById('adminLocked').style.display='none';
-    document.getElementById('adminPanel').style.display='block';
-    document.getElementById('adminBadge').classList.add('visible');
-    document.getElementById('logoutBtn').style.display='inline-flex';
-    renderSuggList();
-  } else { document.getElementById('loginErr').style.display='flex'; }
+
+async function doLogin(){
+  const email = document.getElementById('loginUser').value.trim();
+  const pass  = document.getElementById('loginPass').value;
+  const errEl = document.getElementById('loginErr');
+  const btn   = document.querySelector('#loginModal .btn-primary');
+  btn.textContent = 'Ingresando...'; btn.disabled = true;
+  try {
+    await auth.signInWithEmailAndPassword(email, pass);
+    closeLogin();
+  } catch(e) {
+    errEl.textContent = 'Email o contraseña incorrectos.';
+    errEl.style.display = 'flex';
+  } finally {
+    btn.textContent = 'Ingresar'; btn.disabled = false;
+  }
 }
-function doLogout(){
-  isAdmin=false;
-  document.getElementById('adminLocked').style.display='block';
-  document.getElementById('adminPanel').style.display='none';
-  document.getElementById('adminBadge').classList.remove('visible');
-  document.getElementById('logoutBtn').style.display='none';
-  switchTab('search');
-}
+
+function doLogout(){ auth.signOut(); }
+
+auth.onAuthStateChanged(user => {
+  isAdmin = !!user;
+  document.getElementById('adminLocked').style.display  = isAdmin ? 'none'        : 'block';
+  document.getElementById('adminPanel').style.display   = isAdmin ? 'block'       : 'none';
+  document.getElementById('adminBadge').classList.toggle('visible', isAdmin);
+  document.getElementById('logoutBtn').style.display    = isAdmin ? 'inline-flex' : 'none';
+  if(isAdmin) renderSuggList();
+  else if(document.getElementById('tab-admin').classList.contains('active')) switchTab('search');
+});
 
 let models=[], groups=[], suggestions=[];
 let adminTipo=null, suggTipo=null;
