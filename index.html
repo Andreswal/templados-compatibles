@@ -22,7 +22,7 @@
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.5}
 
 .header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 1.5rem;position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
-.header-inner{max-width:940px;margin:0 auto;display:flex;align-items:center;gap:10px;height:56px}
+.header-inner{max-width:980px;margin:0 auto;display:flex;align-items:center;gap:10px;height:56px}
 .logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:16px;color:var(--text);flex-shrink:0}
 .logo-icon{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:16px}
 .logo-sub{font-size:11px;color:var(--text3);font-weight:400;display:block;line-height:1}
@@ -38,7 +38,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .logout-btn{font-size:12px;color:var(--text3);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:var(--radius);white-space:nowrap}
 .logout-btn:hover{background:var(--surface2);color:var(--text)}
 
-.main{max-width:940px;margin:0 auto;padding:2rem 1.5rem}
+.main{max-width:980px;margin:0 auto;padding:2rem 1.5rem}
 .section{display:none}.section.active{display:block}
 
 .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;box-shadow:var(--shadow)}
@@ -53,7 +53,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text3);pointer-events:none}
 .btn-search{padding:11px 20px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-size:14px;font-weight:500;cursor:pointer;transition:background .15s;font-family:inherit;white-space:nowrap}
 .btn-search:hover{background:#1d4ed8}
-.suggestions{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--radius);box-shadow:0 8px 24px rgba(0,0,0,.1);z-index:50;overflow:hidden;display:none}
+.suggestions{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--radius);box-shadow:0 8px 24px rgba(0,0,0,.1);z-index:50;overflow:hidden;display:none;max-height:240px;overflow-y:auto}
 .sugg-item{padding:10px 16px;cursor:pointer;font-size:14px}
 .sugg-item:hover,.sugg-item.sel{background:var(--accent-bg);color:var(--accent)}
 
@@ -64,8 +64,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .result-model{font-size:17px;font-weight:600}
 .result-sub{font-size:13px;color:var(--text2);margin-top:2px}
 .result-body{padding:0}
-
-/* Tipo sections inside result */
 .tipo-section{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border)}
 .tipo-section:last-child{border-bottom:none}
 .tipo-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
@@ -85,22 +83,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .form-label .req{color:var(--danger-text);margin-left:2px}
 .form-input,.form-select,.form-textarea{width:100%;padding:9px 12px;border:1px solid var(--border-strong);border-radius:var(--radius);font-size:14px;background:var(--surface);color:var(--text);outline:none;transition:border-color .15s;font-family:inherit}
 .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
-.form-input.err,.form-select.err{border-color:var(--danger-text)}
 .form-textarea{resize:vertical;min-height:70px}
 
 /* Tipo selector */
 .tipo-selector{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
 .tipo-opt{border:2px solid var(--border-strong);border-radius:var(--radius);padding:12px;cursor:pointer;transition:all .15s;text-align:center;user-select:none;background:var(--surface)}
-.tipo-opt:hover{border-color:var(--border-strong);background:var(--surface2)}
+.tipo-opt:hover{background:var(--surface2)}
 .tipo-opt.selected-comun{border-color:var(--success-text);background:var(--success-bg)}
 .tipo-opt.selected-premium{border-color:#a16207;background:var(--gold-bg)}
 .tipo-opt-icon{font-size:1.5rem;margin-bottom:4px}
 .tipo-opt-name{font-size:13px;font-weight:600}
 .tipo-opt-desc{font-size:11px;color:var(--text3);margin-top:2px}
-.tipo-opt.selected-comun .tipo-opt-name{color:var(--success-text)}
-.tipo-opt.selected-comun .tipo-opt-desc{color:var(--success-text)}
-.tipo-opt.selected-premium .tipo-opt-name{color:var(--gold-text)}
-.tipo-opt.selected-premium .tipo-opt-desc{color:var(--gold-text)}
+.tipo-opt.selected-comun .tipo-opt-name,.tipo-opt.selected-comun .tipo-opt-desc{color:var(--success-text)}
+.tipo-opt.selected-premium .tipo-opt-name,.tipo-opt.selected-premium .tipo-opt-desc{color:var(--gold-text)}
 
 /* Buttons */
 .btn{padding:8px 14px;border-radius:var(--radius);font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font-family:inherit;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
@@ -113,33 +108,39 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn-danger:hover{background:#fee2e2}
 .btn-sm{padding:4px 10px;font-size:12px}
 .btn-full{width:100%;justify-content:center}
+.btn-icon{padding:4px 8px;font-size:12px;line-height:1}
 
 /* Admin */
 .admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-@media(max-width:640px){.admin-grid{grid-template-columns:1fr}}
+@media(max-width:680px){.admin-grid{grid-template-columns:1fr}}
 .full{grid-column:1/-1}
 .model-list{max-height:240px;overflow-y:auto}
 .model-item{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);font-size:14px}
 .model-item:last-child{border-bottom:none}
-.group-list{max-height:320px;overflow-y:auto}
-.group-item{border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;margin-bottom:8px;background:var(--surface2)}
-.group-item.comun{border-left:3px solid var(--success-text)}
-.group-item.premium{border-left:3px solid #a16207}
-.group-item-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.group-item-name{font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px}
-.mini-badge{font-size:10px;padding:2px 7px;border-radius:999px;font-weight:600}
-.mini-badge.comun{background:var(--success-bg);color:var(--success-text);border:1px solid var(--success-border)}
-.mini-badge.premium{background:var(--gold-bg);color:var(--gold-text);border:1px solid var(--gold-border)}
-.group-chips{display:flex;flex-wrap:wrap;gap:4px}
-.group-chip{font-size:11px;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:2px 8px;color:var(--text2)}
-.toggle-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.toggle-chip{padding:5px 12px;border-radius:999px;font-size:12px;cursor:pointer;border:1px solid var(--border-strong);background:var(--surface);color:var(--text2);transition:all .15s;user-select:none}
-.toggle-chip.on{background:var(--accent-bg);color:var(--accent);border-color:var(--accent-border);font-weight:500}
+
+/* Pair adder */
+.pair-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pair-input-wrap{position:relative;flex:1;min-width:160px}
+.pair-arrow{color:var(--text3);font-size:18px;flex-shrink:0}
+.pending-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.pending-item{display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 12px;font-size:13px}
+.pending-item .names{display:flex;align-items:center;gap:6px}
+.pending-remove{background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;padding:2px 6px}
+.pending-remove:hover{color:var(--danger-text)}
+
+/* Result-style admin lookup */
+.lookup-result{margin-top:1rem}
+.lookup-group{border:1px solid var(--border);border-radius:var(--radius);padding:12px;margin-bottom:8px}
+.lookup-group-header{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--text3);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.lookup-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;font-size:13px;margin:0 6px 6px 0;background:var(--surface2);border:1px solid var(--border)}
+.lookup-chip button{background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;padding:0;line-height:1}
+.lookup-chip button:hover{color:var(--danger-text)}
 
 /* Messages */
-.msg{padding:10px 14px;border-radius:var(--radius);font-size:13px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.msg{padding:10px 14px;border-radius:var(--radius);font-size:13px;margin-bottom:12px;display:flex;align-items:flex-start;gap:8px}
 .msg-ok{background:var(--success-bg);color:var(--success-text);border:1px solid var(--success-border)}
 .msg-err{background:var(--danger-bg);color:var(--danger-text);border:1px solid var(--danger-border)}
+.msg-info{background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-border)}
 .loading{text-align:center;padding:2rem;color:var(--text3);font-size:14px}
 .empty{color:var(--text3);font-size:13px;padding:8px 0}
 
@@ -163,6 +164,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .sugg-panel-note{font-size:12px;color:var(--text2)}
 .sugg-panel-actions{display:flex;gap:6px;flex-shrink:0}
 .sugg-count{background:var(--purple-text);color:white;border-radius:999px;font-size:10px;padding:2px 7px;font-weight:600;margin-left:6px;display:none}
+.mini-badge{font-size:10px;padding:2px 7px;border-radius:999px;font-weight:600}
+.mini-badge.comun{background:var(--success-bg);color:var(--success-text);border:1px solid var(--success-border)}
+.mini-badge.premium{background:var(--gold-bg);color:var(--gold-text);border:1px solid var(--gold-border)}
 
 @media(max-width:480px){
   .logo-sub,.admin-badge{display:none}
@@ -173,11 +177,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 </head>
 <body>
 
-<!-- LOGIN MODAL -->
 <div class="modal-overlay" id="loginModal">
   <div class="modal">
     <h2>🔐 Acceso administrador</h2>
-    <p>Ingresá tus credenciales para gestionar modelos y grupos.</p>
+    <p>Ingresá tus credenciales para gestionar modelos y compatibilidades.</p>
     <div class="modal-err" id="loginErr">Usuario o contraseña incorrectos.</div>
     <div class="form-group">
       <label class="form-label">Usuario</label>
@@ -194,7 +197,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- HEADER -->
 <header class="header">
   <div class="header-inner">
     <div class="logo">
@@ -233,7 +235,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     </div>
     <div id="searchResult"></div>
 
-    <!-- Sugerencia pública -->
     <div style="text-align:center;margin-top:1.5rem">
       <button class="btn" onclick="toggleSuggestBox()" id="toggleSuggBtn" style="font-size:13px;color:var(--text2)">
         💡 Sugerir una compatibilidad nueva
@@ -242,38 +243,29 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="suggest-box" id="suggestBox">
       <h3>💡 ¿No encontrás tu modelo o falta una compatibilidad?</h3>
       <p>Completá el formulario y el administrador lo revisará para agregarlo.</p>
-
       <div class="form-group">
         <label class="form-label">Tu modelo de teléfono <span class="req">*</span></label>
         <input class="form-input" type="text" id="suggModel" placeholder="Ej: Motorola Moto G Power 2024" />
       </div>
-
       <div class="form-group">
         <label class="form-label">Tipo de vidrio <span class="req">*</span></label>
         <div class="tipo-selector">
           <div class="tipo-opt" id="suggTipoComun" onclick="selectSuggTipo('comun')">
-            <div class="tipo-opt-icon">🔲</div>
-            <div class="tipo-opt-name">Común</div>
-            <div class="tipo-opt-desc">Sin bordes negros, fino</div>
+            <div class="tipo-opt-icon">🔲</div><div class="tipo-opt-name">Común</div><div class="tipo-opt-desc">Sin bordes negros, fino</div>
           </div>
           <div class="tipo-opt" id="suggTipoPremium" onclick="selectSuggTipo('premium')">
-            <div class="tipo-opt-icon">⬛</div>
-            <div class="tipo-opt-name">Premium</div>
-            <div class="tipo-opt-desc">Bordes negros, más grueso</div>
+            <div class="tipo-opt-icon">⬛</div><div class="tipo-opt-name">Premium</div><div class="tipo-opt-desc">Bordes negros, más grueso</div>
           </div>
         </div>
       </div>
-
       <div class="form-group">
         <label class="form-label">¿Con qué modelo creés que es compatible? <span style="font-weight:400;text-transform:none;color:var(--text3)">(opcional)</span></label>
         <input class="form-input" type="text" id="suggCompat" placeholder="Ej: Motorola Moto G84" />
       </div>
-
       <div class="form-group">
         <label class="form-label">Nota adicional <span style="font-weight:400;text-transform:none;color:var(--text3)">(opcional)</span></label>
         <textarea class="form-textarea" id="suggNote" placeholder="Cualquier detalle que pueda ayudar..."></textarea>
       </div>
-
       <div id="suggMsg"></div>
       <button class="btn btn-primary" onclick="sendSuggestion()">Enviar sugerencia</button>
     </div>
@@ -295,72 +287,71 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <!-- Sugerencias -->
       <div class="card" style="margin-bottom:1rem;border-color:var(--purple-border)">
         <div class="card-title" style="color:var(--purple-text)">
-          💡 Sugerencias de usuarios
-          <span class="sugg-count" id="suggCount">0</span>
+          💡 Sugerencias de usuarios <span class="sugg-count" id="suggCount">0</span>
         </div>
         <div id="suggList"><div class="empty">Sin sugerencias pendientes. ✓</div></div>
       </div>
 
       <div class="admin-grid">
 
-        <!-- Agregar modelo -->
+        <!-- Agregar modelo nuevo (solo el nombre, sin compatibilidad) -->
         <div class="card">
-          <div class="card-title">📱 Agregar modelo</div>
+          <div class="card-title">📱 Agregar modelo nuevo</div>
+          <p style="font-size:12px;color:var(--text3);margin-bottom:10px">Solo crea el modelo en la base. Para vincular compatibilidades, usá el panel de la derecha →</p>
           <div class="form-group">
             <label class="form-label">Nombre del modelo</label>
-            <input class="form-input" type="text" id="newModelName" placeholder="Ej: Samsung Galaxy A54" />
+            <input class="form-input" type="text" id="newModelName" placeholder="Ej: Samsung Galaxy A54" onkeydown="if(event.key==='Enter')addModel()" />
           </div>
           <button class="btn btn-primary btn-full" onclick="addModel()">+ Agregar modelo</button>
         </div>
 
         <!-- Lista modelos -->
         <div class="card">
-          <div class="card-title">📋 Modelos cargados</div>
+          <div class="card-title">📋 Modelos cargados <span style="font-weight:400;text-transform:none;color:var(--text3)" id="modelCountLabel"></span></div>
           <div class="model-list" id="modelList"><div class="loading">Cargando...</div></div>
         </div>
 
-        <!-- Editor grupos -->
+        <!-- Carga rápida de compatibilidad (por pares) -->
         <div class="card full">
-          <div class="card-title">🔲 Grupos de compatibilidad</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
-            <div>
-              <div class="form-group">
-                <label class="form-label">Tipo de vidrio <span class="req">*</span></label>
-                <div class="tipo-selector">
-                  <div class="tipo-opt" id="adminTipoComun" onclick="selectAdminTipo('comun')">
-                    <div class="tipo-opt-icon">🔲</div>
-                    <div class="tipo-opt-name">Común</div>
-                    <div class="tipo-opt-desc">Sin bordes negros, fino</div>
-                  </div>
-                  <div class="tipo-opt" id="adminTipoPremium" onclick="selectAdminTipo('premium')">
-                    <div class="tipo-opt-icon">⬛</div>
-                    <div class="tipo-opt-name">Premium</div>
-                    <div class="tipo-opt-desc">Bordes negros, más grueso</div>
-                  </div>
-                </div>
-                <p id="tipoErr" style="font-size:12px;color:var(--danger-text);margin-top:6px;display:none">⚠ Seleccioná el tipo de vidrio.</p>
+          <div class="card-title">🔗 Cargar compatibilidad</div>
+          <p style="font-size:12px;color:var(--text3);margin-bottom:14px">Elegí un modelo, el tipo de vidrio, y agregá uno o varios modelos compatibles con él. El sistema une o fusiona grupos automáticamente — no hace falta nombrarlos.</p>
+
+          <div class="form-group">
+            <label class="form-label">Tipo de vidrio <span class="req">*</span></label>
+            <div class="tipo-selector">
+              <div class="tipo-opt" id="adminTipoComun" onclick="selectAdminTipo('comun')">
+                <div class="tipo-opt-icon">🔲</div><div class="tipo-opt-name">Común</div><div class="tipo-opt-desc">Sin bordes negros, fino</div>
               </div>
-              <div class="form-group">
-                <label class="form-label">Nombre del grupo <span style="font-weight:400;text-transform:none;color:var(--text3)">(opcional)</span></label>
-                <input class="form-input" type="text" id="newGroupName" placeholder='Ej: Borde curvo 6.5"' />
+              <div class="tipo-opt" id="adminTipoPremium" onclick="selectAdminTipo('premium')">
+                <div class="tipo-opt-icon">⬛</div><div class="tipo-opt-name">Premium</div><div class="tipo-opt-desc">Bordes negros, más grueso</div>
               </div>
-              <div class="form-group">
-                <label class="form-label">Modelos del grupo <span class="req">*</span></label>
-                <div class="toggle-chips" id="modelToggleChips">
-                  <span class="empty">Primero agregá modelos</span>
-                </div>
-              </div>
-              <div style="display:flex;gap:8px;margin-top:12px">
-                <button class="btn btn-primary" onclick="saveGroup()" id="saveGroupBtn">Guardar grupo</button>
-                <button class="btn" onclick="clearGroupEdit()">Limpiar</button>
-              </div>
-              <p id="editingNote" style="font-size:12px;color:var(--accent);margin-top:8px;display:none">✏️ Editando grupo existente</p>
             </div>
-            <div>
-              <label class="form-label">Grupos guardados</label>
-              <div class="group-list" id="groupList"><div class="loading">Cargando...</div></div>
+            <p id="tipoErr" style="font-size:12px;color:var(--danger-text);margin-top:6px;display:none">⚠ Seleccioná el tipo de vidrio.</p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Modelo base <span class="req">*</span></label>
+            <div class="pair-input-wrap">
+              <input class="form-input" type="text" id="baseModelInput" placeholder="Empezá a escribir el modelo..." autocomplete="off" oninput="onBaseInput()" onkeydown="onBaseKey(event)" />
+              <div class="suggestions" id="baseSuggestions"></div>
             </div>
           </div>
+
+          <div class="form-group">
+            <label class="form-label">Compatible con <span class="req">*</span> <span style="font-weight:400;text-transform:none;color:var(--text3)">(agregá uno o varios)</span></label>
+            <div class="pair-row">
+              <div class="pair-input-wrap">
+                <input class="form-input" type="text" id="compatModelInput" placeholder="Escribí y elegí de la lista..." autocomplete="off" oninput="onCompatInput()" onkeydown="onCompatKey(event)" />
+                <div class="suggestions" id="compatSuggestions"></div>
+              </div>
+            </div>
+            <div class="pending-list" id="pendingList"></div>
+          </div>
+
+          <button class="btn btn-primary" onclick="saveCompatibility()" id="saveCompatBtn">Guardar compatibilidad</button>
+
+          <!-- Vista rápida de compatibilidades actuales del modelo base -->
+          <div class="lookup-result" id="lookupResult"></div>
         </div>
 
       </div>
@@ -382,9 +373,8 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 // ── Auth ───────────────────────────────────────────────────────
-const ADMIN_USER = "awrnow", ADMIN_PASS = "Hernandez226";
-let isAdmin = false;
-
+const ADMIN_USER="awrnow", ADMIN_PASS="Hernandez226";
+let isAdmin=false;
 function openLogin(){ document.getElementById('loginModal').classList.add('open'); setTimeout(()=>document.getElementById('loginUser').focus(),100); }
 function closeLogin(){ document.getElementById('loginModal').classList.remove('open'); document.getElementById('loginErr').style.display='none'; }
 function doLogin(){
@@ -409,21 +399,32 @@ function doLogout(){
 }
 
 // ── State ──────────────────────────────────────────────────────
+// "groups" doc shape: { tipo: 'comun'|'premium', models: [name,...] }
 let models=[], groups=[], suggestions=[];
-let selectedModels=new Set(), adminTipo=null, suggTipo=null;
-let editingGroupId=null, suggIdx=-1;
+let adminTipo=null, suggTipo=null;
+let baseModel=null;          // selected base model name (string)
+let pendingCompats=[];       // array of model names staged to link
+let baseIdx=-1, compatIdx=-1, suggIdx=-1;
 
-// ── Firebase listeners ─────────────────────────────────────────
 function setConn(ok){ document.getElementById('connDot').className='conn-dot'+(ok?' ok':''); document.getElementById('connText').textContent=ok?'Conectado':'Sin conexión'; }
+function norm(s){ return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
 
-db.collection('models').orderBy('name').onSnapshot(snap=>{ models=snap.docs.map(d=>({id:d.id,...d.data()})); setConn(true); renderModelList(); renderModelToggleChips(); }, ()=>setConn(false));
-db.collection('groups').orderBy('createdAt').onSnapshot(snap=>{ groups=snap.docs.map(d=>({id:d.id,...d.data()})); renderGroupList(); }, ()=>{});
+db.collection('models').orderBy('name').onSnapshot(snap=>{
+  models=snap.docs.map(d=>({id:d.id,...d.data()}));
+  setConn(true); renderModelList();
+  document.getElementById('modelCountLabel').textContent=models.length?`(${models.length})`:'';
+}, ()=>setConn(false));
+
+db.collection('groups').onSnapshot(snap=>{
+  groups=snap.docs.map(d=>({id:d.id,...d.data()}));
+  if(baseModel) renderLookup();
+}, ()=>{});
+
 db.collection('suggestions').orderBy('createdAt','desc').onSnapshot(snap=>{
   suggestions=snap.docs.map(d=>({id:d.id,...d.data()}));
   const pending=suggestions.filter(s=>s.status==='pending');
   const cnt=document.getElementById('suggCount');
-  if(pending.length){ cnt.textContent=pending.length; cnt.style.display='inline'; }
-  else { cnt.style.display='none'; }
+  if(pending.length){ cnt.textContent=pending.length; cnt.style.display='inline'; } else { cnt.style.display='none'; }
   if(isAdmin) renderSuggList();
 }, ()=>{});
 
@@ -441,6 +442,7 @@ function selectAdminTipo(t){
   document.getElementById('adminTipoComun').className='tipo-opt'+(t==='comun'?' selected-comun':'');
   document.getElementById('adminTipoPremium').className='tipo-opt'+(t==='premium'?' selected-premium':'');
   document.getElementById('tipoErr').style.display='none';
+  if(baseModel) renderLookup();
 }
 function selectSuggTipo(t){
   suggTipo=t;
@@ -448,28 +450,33 @@ function selectSuggTipo(t){
   document.getElementById('suggTipoPremium').className='tipo-opt'+(t==='premium'?' selected-premium':'');
 }
 
-// ── Search ─────────────────────────────────────────────────────
-function norm(s){ return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
-
+// ── SEARCH (public) ────────────────────────────────────────────
 function onSearchInput(){
   const val=document.getElementById('searchInput').value;
   const box=document.getElementById('suggestions'); suggIdx=-1;
   if(val.length<2){ box.style.display='none'; return; }
   const matches=models.filter(m=>norm(m.name).includes(norm(val))).slice(0,8);
   if(!matches.length){ box.style.display='none'; return; }
-  box.innerHTML=matches.map(m=>`<div class="sugg-item" onclick="selectSugg('${m.name.replace(/'/g,"\\'")}')">📱 ${m.name}</div>`).join('');
+  box.innerHTML=matches.map(m=>`<div class="sugg-item" onclick="selectSearchSugg('${m.name.replace(/'/g,"\\'")}')">📱 ${m.name}</div>`).join('');
   box.style.display='block';
 }
 function onSearchKey(e){
   const box=document.getElementById('suggestions'); const items=box.querySelectorAll('.sugg-item');
-  if(e.key==='ArrowDown'){e.preventDefault();suggIdx=Math.min(suggIdx+1,items.length-1);hilite(items);}
-  else if(e.key==='ArrowUp'){e.preventDefault();suggIdx=Math.max(suggIdx-1,-1);hilite(items);}
+  if(e.key==='ArrowDown'){e.preventDefault();suggIdx=Math.min(suggIdx+1,items.length-1);hiliteGeneric(items,'searchInput',suggIdx);}
+  else if(e.key==='ArrowUp'){e.preventDefault();suggIdx=Math.max(suggIdx-1,-1);hiliteGeneric(items,'searchInput',suggIdx);}
   else if(e.key==='Enter'){if(suggIdx>=0&&items[suggIdx])items[suggIdx].click();else doSearch();box.style.display='none';}
   else if(e.key==='Escape'){box.style.display='none';}
 }
-function hilite(items){ items.forEach((el,i)=>el.classList.toggle('sel',i===suggIdx)); if(suggIdx>=0&&items[suggIdx]) document.getElementById('searchInput').value=items[suggIdx].textContent.trim().replace(/^📱\s*/,''); }
-function selectSugg(val){ document.getElementById('searchInput').value=val; document.getElementById('suggestions').style.display='none'; doSearch(); }
-document.addEventListener('click',e=>{ if(!e.target.closest('.search-input-wrap')) document.getElementById('suggestions').style.display='none'; });
+function hiliteGeneric(items,inputId,idx){
+  items.forEach((el,i)=>el.classList.toggle('sel',i===idx));
+  if(idx>=0&&items[idx]) document.getElementById(inputId).value=items[idx].textContent.trim().replace(/^📱\s*/,'');
+}
+function selectSearchSugg(val){ document.getElementById('searchInput').value=val; document.getElementById('suggestions').style.display='none'; doSearch(); }
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.search-input-wrap')) document.getElementById('suggestions').style.display='none';
+  if(!e.target.closest('#baseModelInput')) document.getElementById('baseSuggestions').style.display='none';
+  if(!e.target.closest('#compatModelInput')) document.getElementById('compatSuggestions').style.display='none';
+});
 
 function doSearch(){
   const query=document.getElementById('searchInput').value.trim();
@@ -482,57 +489,24 @@ function doSearch(){
     container.innerHTML=`<div class="result-card"><div class="not-found"><div style="font-size:2rem;margin-bottom:8px">🔍</div>No se encontró <strong>"${query}"</strong><br><span style="font-size:13px;margin-top:6px;display:block">Podés sugerirlo usando el botón de abajo.</span></div></div>`;
     return;
   }
+  const comunGroup=groups.find(g=>g.tipo==='comun'&&g.models&&g.models.includes(found.name));
+  const premiumGroup=groups.find(g=>g.tipo==='premium'&&g.models&&g.models.includes(found.name));
+  const comunOthers=comunGroup?comunGroup.models.filter(m=>m!==found.name):[];
+  const premiumOthers=premiumGroup?premiumGroup.models.filter(m=>m!==found.name):[];
 
-  const comunGroups=groups.filter(g=>g.tipo==='comun'&&g.models&&g.models.includes(found.name));
-  const premiumGroups=groups.filter(g=>g.tipo==='premium'&&g.models&&g.models.includes(found.name));
-
-  const comunOthers=[...new Set(comunGroups.flatMap(g=>g.models||[]).filter(m=>m!==found.name))];
-  const premiumOthers=[...new Set(premiumGroups.flatMap(g=>g.models||[]).filter(m=>m!==found.name))];
-
-  let html=`<div class="result-card">
-    <div class="result-header">
-      <div class="result-phone-icon">📱</div>
-      <div>
-        <div class="result-model">${found.name}</div>
-        <div class="result-sub">${comunOthers.length+premiumOthers.length} modelo(s) compatible(s) en total</div>
-      </div>
-    </div>
-    <div class="result-body">`;
-
-  // Común
-  html+=`<div class="tipo-section">
-    <div class="tipo-header">
-      <span class="tipo-badge comun">🔲 Vidrio Común</span>
-      <span class="tipo-desc">Fino, sin bordes negros</span>
-    </div>`;
-  if(comunOthers.length){
-    html+=`<div class="compat-chips">${comunOthers.map(m=>`<div class="chip-comun">✓ ${m}</div>`).join('')}</div>`;
-  } else {
-    html+=`<div class="alone-box"><span>⚠️</span><div>Sin compatibilidades de vidrio común registradas para este modelo.</div></div>`;
-  }
+  let html=`<div class="result-card"><div class="result-header"><div class="result-phone-icon">📱</div><div><div class="result-model">${found.name}</div><div class="result-sub">${comunOthers.length+premiumOthers.length} modelo(s) compatible(s) en total</div></div></div><div class="result-body">`;
+  html+=`<div class="tipo-section"><div class="tipo-header"><span class="tipo-badge comun">🔲 Vidrio Común</span><span class="tipo-desc">Fino, sin bordes negros</span></div>`;
+  html+= comunOthers.length ? `<div class="compat-chips">${comunOthers.map(m=>`<div class="chip-comun">✓ ${m}</div>`).join('')}</div>` : `<div class="alone-box"><span>⚠️</span><div>Sin compatibilidades de vidrio común registradas para este modelo.</div></div>`;
   html+=`</div>`;
-
-  // Premium
-  html+=`<div class="tipo-section">
-    <div class="tipo-header">
-      <span class="tipo-badge premium">⬛ Vidrio Premium</span>
-      <span class="tipo-desc">Bordes negros, más grueso</span>
-    </div>`;
-  if(premiumOthers.length){
-    html+=`<div class="compat-chips">${premiumOthers.map(m=>`<div class="chip-premium">✓ ${m}</div>`).join('')}</div>`;
-  } else {
-    html+=`<div class="alone-box"><span>⚠️</span><div>Sin compatibilidades de vidrio premium registradas para este modelo.</div></div>`;
-  }
-  html+=`</div>`;
-
-  html+=`</div></div>`;
+  html+=`<div class="tipo-section"><div class="tipo-header"><span class="tipo-badge premium">⬛ Vidrio Premium</span><span class="tipo-desc">Bordes negros, más grueso</span></div>`;
+  html+= premiumOthers.length ? `<div class="compat-chips">${premiumOthers.map(m=>`<div class="chip-premium">✓ ${m}</div>`).join('')}</div>` : `<div class="alone-box"><span>⚠️</span><div>Sin compatibilidades de vidrio premium registradas para este modelo.</div></div>`;
+  html+=`</div></div></div>`;
   container.innerHTML=html;
 }
 
-// ── Suggest box público ────────────────────────────────────────
+// ── Suggest box (público) ──────────────────────────────────────
 function toggleSuggestBox(){
-  const box=document.getElementById('suggestBox');
-  const btn=document.getElementById('toggleSuggBtn');
+  const box=document.getElementById('suggestBox'); const btn=document.getElementById('toggleSuggBtn');
   const vis=box.style.display==='block';
   box.style.display=vis?'none':'block';
   btn.textContent=vis?'💡 Sugerir una compatibilidad nueva':'✕ Cerrar';
@@ -543,22 +517,18 @@ async function sendSuggestion(){
   const note=document.getElementById('suggNote').value.trim();
   const msgEl=document.getElementById('suggMsg');
   if(!model){ msgEl.innerHTML='<div class="msg msg-err">⚠ Ingresá el nombre de tu modelo.</div>'; return; }
-  if(!suggTipo){ msgEl.innerHTML='<div class="msg msg-err">⚠ Seleccioná el tipo de vidrio (Común o Premium).</div>'; return; }
+  if(!suggTipo){ msgEl.innerHTML='<div class="msg msg-err">⚠ Seleccioná el tipo de vidrio.</div>'; return; }
   try{
     await db.collection('suggestions').add({ model, tipo:suggTipo, compat, note, status:'pending', createdAt:firebase.firestore.FieldValue.serverTimestamp() });
-    document.getElementById('suggModel').value='';
-    document.getElementById('suggCompat').value='';
-    document.getElementById('suggNote').value='';
+    document.getElementById('suggModel').value=''; document.getElementById('suggCompat').value=''; document.getElementById('suggNote').value='';
     suggTipo=null;
-    selectSuggTipo(null);
-    document.getElementById('suggTipoComun').className='tipo-opt';
-    document.getElementById('suggTipoPremium').className='tipo-opt';
-    msgEl.innerHTML='<div class="msg msg-ok">✓ Sugerencia enviada. ¡Gracias! El administrador la revisará pronto.</div>';
+    document.getElementById('suggTipoComun').className='tipo-opt'; document.getElementById('suggTipoPremium').className='tipo-opt';
+    msgEl.innerHTML='<div class="msg msg-ok">✓ Sugerencia enviada. ¡Gracias!</div>';
     setTimeout(()=>msgEl.innerHTML='',4000);
-  } catch(e){ msgEl.innerHTML='<div class="msg msg-err">⚠ Error al enviar. Revisá tu conexión.</div>'; }
+  } catch(e){ msgEl.innerHTML='<div class="msg msg-err">⚠ Error al enviar.</div>'; }
 }
 
-// ── Suggestions list admin ─────────────────────────────────────
+// ── Suggestions panel (admin) ──────────────────────────────────
 function renderSuggList(){
   const el=document.getElementById('suggList');
   const pending=suggestions.filter(s=>s.status==='pending');
@@ -580,97 +550,217 @@ function renderSuggList(){
   }).join('');
 }
 async function approveSugg(id,model,compat,tipo){
-  if(model) document.getElementById('newModelName').value=model;
   if(tipo) selectAdminTipo(tipo);
-  if(compat){ const found=models.find(m=>norm(m.name).includes(norm(compat))); if(found){ selectedModels.add(found.name); renderModelToggleChips(); } }
+  if(model){
+    document.getElementById('baseModelInput').value=model;
+    baseModel = models.find(m=>norm(m.name)===norm(model)) ? model : null;
+    if(!baseModel){
+      // create the model first so it can be linked
+      try{ await db.collection('models').add({name:model,createdAt:firebase.firestore.FieldValue.serverTimestamp()}); baseModel=model; }catch(e){}
+    }
+  }
+  pendingCompats=[];
+  if(compat){
+    const found=models.find(m=>norm(m.name).includes(norm(compat)));
+    if(found) pendingCompats.push(found.name);
+    else pendingCompats.push(compat); // will get created on save if needed
+  }
+  renderPendingList();
+  renderLookup();
   await dismissSugg(id);
-  showMsg('Datos cargados desde la sugerencia. Revisá y guardá el grupo.','ok');
-  document.getElementById('adminTipoComun').scrollIntoView({behavior:'smooth',block:'center'});
+  showMsg('Datos cargados desde la sugerencia. Revisá abajo y guardá.','ok');
+  document.getElementById('baseModelInput').scrollIntoView({behavior:'smooth',block:'center'});
 }
 async function dismissSugg(id){ try{ await db.collection('suggestions').doc(id).update({status:'dismissed'}); } catch(e){ showMsg('Error al descartar.','err'); } }
 
-// ── Admin models ───────────────────────────────────────────────
+// ── Admin: model list / add ────────────────────────────────────
 function renderModelList(){
   const el=document.getElementById('modelList');
   if(!models.length){ el.innerHTML='<div class="empty">Sin modelos aún.</div>'; return; }
   el.innerHTML=models.map(m=>`<div class="model-item"><span>${m.name}</span><button class="btn btn-sm btn-danger" onclick="deleteModel('${m.id}','${m.name.replace(/'/g,"\\'")}')">🗑</button></div>`).join('');
 }
-function renderModelToggleChips(){
-  const el=document.getElementById('modelToggleChips');
-  if(!models.length){ el.innerHTML='<span class="empty">Primero agregá modelos</span>'; return; }
-  el.innerHTML=models.map(m=>`<span class="toggle-chip ${selectedModels.has(m.name)?'on':''}" onclick="toggleModel('${m.name.replace(/'/g,"\\'")}')"> ${selectedModels.has(m.name)?'✓ ':''}${m.name}</span>`).join('');
-}
-function toggleModel(name){ if(selectedModels.has(name)) selectedModels.delete(name); else selectedModels.add(name); renderModelToggleChips(); }
 async function addModel(){
   const input=document.getElementById('newModelName');
   const name=input.value.trim();
   if(!name){ showMsg('Ingresá el nombre del modelo.','err'); return; }
   if(models.find(m=>norm(m.name)===norm(name))){ showMsg('Ese modelo ya existe.','err'); return; }
-  try{ await db.collection('models').add({name,createdAt:firebase.firestore.FieldValue.serverTimestamp()}); input.value=''; showMsg(`Modelo "${name}" agregado.`,'ok'); }
+  try{ await db.collection('models').add({name,createdAt:firebase.firestore.FieldValue.serverTimestamp()}); input.value=''; showMsg(`Modelo "${name}" agregado. Ahora cargá su compatibilidad →`,'ok'); }
   catch(e){ showMsg('Error al guardar.','err'); }
 }
 async function deleteModel(id,name){
-  if(!confirm(`¿Eliminar "${name}"?\nSe quitará de todos los grupos.`)) return;
+  if(!confirm(`¿Eliminar "${name}"?\nSe quitará de todos los grupos de compatibilidad.`)) return;
   try{
     await db.collection('models').doc(id).delete();
     const affected=groups.filter(g=>g.models&&g.models.includes(name));
-    for(const g of affected) await db.collection('groups').doc(g.id).update({models:g.models.filter(m=>m!==name)});
+    for(const g of affected){
+      const remaining=g.models.filter(m=>m!==name);
+      if(remaining.length<2) await db.collection('groups').doc(g.id).delete();
+      else await db.collection('groups').doc(g.id).update({models:remaining});
+    }
     showMsg('Modelo eliminado.','ok');
   } catch(e){ showMsg('Error al eliminar.','err'); }
 }
 
-// ── Admin groups ───────────────────────────────────────────────
-function renderGroupList(){
-  const el=document.getElementById('groupList');
-  if(!groups.length){ el.innerHTML='<div class="empty">Sin grupos aún.</div>'; return; }
-  el.innerHTML=groups.map(g=>`
-    <div class="group-item ${g.tipo||''}">
-      <div class="group-item-header">
-        <span class="group-item-name">
-          <span class="mini-badge ${g.tipo||''}">${g.tipo==='premium'?'⬛ Premium':'🔲 Común'}</span>
-          ${g.name||'Sin nombre'}
-        </span>
-        <div style="display:flex;gap:4px">
-          <button class="btn btn-sm" onclick="editGroup('${g.id}')">✏️</button>
-          <button class="btn btn-sm btn-danger" onclick="deleteGroup('${g.id}')">🗑</button>
-        </div>
-      </div>
-      <div class="group-chips">${(g.models||[]).map(m=>`<span class="group-chip">${m}</span>`).join('')}</div>
-    </div>`).join('');
+// ── Pair-based compatibility loader ────────────────────────────
+function onBaseInput(){
+  const val=document.getElementById('baseModelInput').value;
+  const box=document.getElementById('baseSuggestions'); baseIdx=-1;
+  if(val.length<1){ box.style.display='none'; return; }
+  const matches=models.filter(m=>norm(m.name).includes(norm(val))).slice(0,8);
+  if(!matches.length){ box.style.display='none'; return; }
+  box.innerHTML=matches.map(m=>`<div class="sugg-item" onclick="pickBase('${m.name.replace(/'/g,"\\'")}')">📱 ${m.name}</div>`).join('');
+  box.style.display='block';
 }
-async function saveGroup(){
-  const name=document.getElementById('newGroupName').value.trim();
-  const modelsList=[...selectedModels];
-  if(!adminTipo){ document.getElementById('tipoErr').style.display='block'; return; }
-  if(modelsList.length<1){ showMsg('Seleccioná al menos un modelo.','err'); return; }
+function onBaseKey(e){
+  const box=document.getElementById('baseSuggestions'); const items=box.querySelectorAll('.sugg-item');
+  if(e.key==='ArrowDown'){e.preventDefault();baseIdx=Math.min(baseIdx+1,items.length-1);hiliteGeneric(items,'baseModelInput',baseIdx);}
+  else if(e.key==='ArrowUp'){e.preventDefault();baseIdx=Math.max(baseIdx-1,-1);hiliteGeneric(items,'baseModelInput',baseIdx);}
+  else if(e.key==='Enter'){e.preventDefault();if(baseIdx>=0&&items[baseIdx])items[baseIdx].click();box.style.display='none';}
+  else if(e.key==='Escape'){box.style.display='none';}
+}
+function pickBase(name){
+  baseModel=name;
+  document.getElementById('baseModelInput').value=name;
+  document.getElementById('baseSuggestions').style.display='none';
+  renderLookup();
+}
+
+function onCompatInput(){
+  const val=document.getElementById('compatModelInput').value;
+  const box=document.getElementById('compatSuggestions'); compatIdx=-1;
+  if(val.length<1){ box.style.display='none'; return; }
+  const matches=models.filter(m=>norm(m.name).includes(norm(val)) && m.name!==baseModel && !pendingCompats.includes(m.name)).slice(0,8);
+  if(!matches.length){ box.style.display='none'; return; }
+  box.innerHTML=matches.map(m=>`<div class="sugg-item" onclick="addPendingCompat('${m.name.replace(/'/g,"\\'")}')">📱 ${m.name}</div>`).join('');
+  box.style.display='block';
+}
+function onCompatKey(e){
+  const box=document.getElementById('compatSuggestions'); const items=box.querySelectorAll('.sugg-item');
+  if(e.key==='ArrowDown'){e.preventDefault();compatIdx=Math.min(compatIdx+1,items.length-1);hiliteGeneric(items,'compatModelInput',compatIdx);}
+  else if(e.key==='ArrowUp'){e.preventDefault();compatIdx=Math.max(compatIdx-1,-1);hiliteGeneric(items,'compatModelInput',compatIdx);}
+  else if(e.key==='Enter'){
+    e.preventDefault();
+    if(compatIdx>=0&&items[compatIdx]) items[compatIdx].click();
+    else {
+      const val=document.getElementById('compatModelInput').value.trim();
+      const found=models.find(m=>norm(m.name)===norm(val));
+      if(found) addPendingCompat(found.name);
+    }
+    box.style.display='none';
+  } else if(e.key==='Escape'){ box.style.display='none'; }
+}
+function addPendingCompat(name){
+  if(!pendingCompats.includes(name)) pendingCompats.push(name);
+  document.getElementById('compatModelInput').value='';
+  document.getElementById('compatSuggestions').style.display='none';
+  renderPendingList();
+}
+function removePendingCompat(name){
+  pendingCompats=pendingCompats.filter(n=>n!==name);
+  renderPendingList();
+}
+function renderPendingList(){
+  const el=document.getElementById('pendingList');
+  if(!pendingCompats.length){ el.innerHTML=''; return; }
+  el.innerHTML=pendingCompats.map(n=>`<div class="pending-item"><span class="names">📱 ${n}</span><button class="pending-remove" onclick="removePendingCompat('${n.replace(/'/g,"\\'")}')">✕</button></div>`).join('');
+}
+
+// Show current compatibilities of the selected base model, with quick remove
+function renderLookup(){
+  const el=document.getElementById('lookupResult');
+  if(!baseModel){ el.innerHTML=''; return; }
+  const comunGroup=groups.find(g=>g.tipo==='comun'&&g.models&&g.models.includes(baseModel));
+  const premiumGroup=groups.find(g=>g.tipo==='premium'&&g.models&&g.models.includes(baseModel));
+  let html=`<div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--text3);margin:1.25rem 0 8px">Compatibilidades actuales de "${baseModel}"</div>`;
+
+  html+=`<div class="lookup-group"><div class="lookup-group-header">🔲 Común</div>`;
+  if(comunGroup && comunGroup.models.length>1){
+    html+= comunGroup.models.filter(m=>m!==baseModel).map(m=>`<span class="lookup-chip">${m} <button onclick="quickUnlink('${comunGroup.id}','${m.replace(/'/g,"\\'")}')">✕</button></span>`).join('');
+  } else { html+=`<span class="empty">Sin compatibilidades cargadas.</span>`; }
+  html+=`</div>`;
+
+  html+=`<div class="lookup-group"><div class="lookup-group-header">⬛ Premium</div>`;
+  if(premiumGroup && premiumGroup.models.length>1){
+    html+= premiumGroup.models.filter(m=>m!==baseModel).map(m=>`<span class="lookup-chip">${m} <button onclick="quickUnlink('${premiumGroup.id}','${m.replace(/'/g,"\\'")}')">✕</button></span>`).join('');
+  } else { html+=`<span class="empty">Sin compatibilidades cargadas.</span>`; }
+  html+=`</div>`;
+
+  el.innerHTML=html;
+}
+async function quickUnlink(groupId,modelName){
+  const g=groups.find(x=>x.id===groupId); if(!g) return;
+  const remaining=g.models.filter(m=>m!==modelName);
   try{
-    if(editingGroupId){ await db.collection('groups').doc(editingGroupId).update({name,tipo:adminTipo,models:modelsList}); showMsg('Grupo actualizado.','ok'); }
-    else{ await db.collection('groups').add({name,tipo:adminTipo,models:modelsList,createdAt:firebase.firestore.FieldValue.serverTimestamp()}); showMsg('Grupo creado.','ok'); }
-    clearGroupEdit();
-  } catch(e){ showMsg('Error al guardar el grupo.','err'); }
+    if(remaining.length<2) await db.collection('groups').doc(groupId).delete();
+    else await db.collection('groups').doc(groupId).update({models:remaining});
+    showMsg(`Se quitó la compatibilidad con "${modelName}".`,'ok');
+  } catch(e){ showMsg('Error al actualizar.','err'); }
 }
-function editGroup(id){
-  const g=groups.find(x=>x.id===id); if(!g) return;
-  editingGroupId=id;
-  document.getElementById('newGroupName').value=g.name||'';
-  selectAdminTipo(g.tipo||null);
-  selectedModels=new Set(g.models||[]);
-  renderModelToggleChips();
-  document.getElementById('editingNote').style.display='block';
-  document.getElementById('saveGroupBtn').textContent='Actualizar grupo';
+
+// ── Core: save compatibility with auto-merge ───────────────────
+async function saveCompatibility(){
+  if(!adminTipo){ document.getElementById('tipoErr').style.display='block'; return; }
+  if(!baseModel){ showMsg('Elegí el modelo base de la lista.','err'); return; }
+  if(!pendingCompats.length){ showMsg('Agregá al menos un modelo compatible.','err'); return; }
+
+  try{
+    const tipoGroups = groups.filter(g=>g.tipo===adminTipo);
+    let messages=[];
+
+    for(const compatName of pendingCompats){
+      // ensure compat model exists in DB (in case it came from a suggestion not yet a model)
+      let exists = models.find(m=>norm(m.name)===norm(compatName));
+      if(!exists){
+        await db.collection('models').add({name:compatName,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+      }
+
+      const baseGroup = tipoGroups.find(g=>g.models.includes(baseModel));
+      const compatGroup = tipoGroups.find(g=>g.models.includes(compatName));
+
+      if(baseGroup && compatGroup && baseGroup.id===compatGroup.id){
+        messages.push(`"${baseModel}" y "${compatName}" ya eran compatibles (${adminTipo}).`);
+        continue;
+      }
+
+      if(!baseGroup && !compatGroup){
+        await db.collection('groups').add({ tipo:adminTipo, models:[baseModel, compatName] });
+        messages.push(`Se creó un nuevo grupo: "${baseModel}" + "${compatName}".`);
+      } else if(baseGroup && !compatGroup){
+        const updated=[...new Set([...baseGroup.models, compatName])];
+        await db.collection('groups').doc(baseGroup.id).update({models:updated});
+        messages.push(`"${compatName}" se sumó al grupo de "${baseModel}" (ahora ${updated.length} modelos).`);
+        baseGroup.models = updated; // keep local copy consistent for next iteration
+      } else if(!baseGroup && compatGroup){
+        const updated=[...new Set([...compatGroup.models, baseModel])];
+        await db.collection('groups').doc(compatGroup.id).update({models:updated});
+        messages.push(`"${baseModel}" se sumó al grupo de "${compatName}" (ahora ${updated.length} modelos).`);
+        // create a local pseudo baseGroup reference so next iterations see it merged
+        compatGroup.models = updated;
+        if(!tipoGroups.includes(compatGroup)) tipoGroups.push(compatGroup);
+      } else {
+        // both exist and are different groups -> merge
+        const merged=[...new Set([...baseGroup.models, ...compatGroup.models])];
+        await db.collection('groups').doc(baseGroup.id).update({models:merged});
+        await db.collection('groups').doc(compatGroup.id).delete();
+        messages.push(`Se fusionaron dos grupos en uno solo de ${merged.length} modelos (incluye "${baseModel}" y "${compatName}").`);
+        baseGroup.models = merged;
+        tipoGroups.splice(tipoGroups.indexOf(compatGroup),1);
+      }
+    }
+
+    pendingCompats=[];
+    renderPendingList();
+    showMsg(messages.join(' '), 'ok');
+  } catch(e){
+    showMsg('Error al guardar la compatibilidad.','err');
+  }
 }
-async function deleteGroup(id){ if(!confirm('¿Eliminar este grupo?')) return; try{ await db.collection('groups').doc(id).delete(); showMsg('Grupo eliminado.','ok'); } catch(e){ showMsg('Error.','err'); } }
-function clearGroupEdit(){
-  editingGroupId=null; selectedModels=new Set(); adminTipo=null;
-  document.getElementById('newGroupName').value='';
-  document.getElementById('editingNote').style.display='none';
-  document.getElementById('saveGroupBtn').textContent='Guardar grupo';
-  document.getElementById('adminTipoComun').className='tipo-opt';
-  document.getElementById('adminTipoPremium').className='tipo-opt';
-  document.getElementById('tipoErr').style.display='none';
-  renderModelToggleChips();
+
+function showMsg(text,type){
+  const el=document.getElementById('adminMsg');
+  el.innerHTML=`<div class="msg msg-${type}">${type==='ok'?'✓':type==='info'?'ℹ':'⚠'} ${text}</div>`;
+  setTimeout(()=>{ if(el.innerHTML.includes(text)) el.innerHTML=''; },6000);
 }
-function showMsg(text,type){ const el=document.getElementById('adminMsg'); el.innerHTML=`<div class="msg msg-${type}">${type==='ok'?'✓':'⚠'} ${text}</div>`; setTimeout(()=>el.innerHTML='',3500); }
 </script>
 </body>
 </html>
