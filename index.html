@@ -163,7 +163,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .sugg-panel-models{font-size:13px;font-weight:500;margin-bottom:4px}
 .sugg-panel-note{font-size:12px;color:var(--text2)}
 .sugg-panel-actions{display:flex;gap:6px;flex-shrink:0}
+.sugg-contact{font-size:11px;color:var(--accent);margin-top:4px;display:flex;align-items:center;gap:4px}
 .sugg-count{background:var(--purple-text);color:white;border-radius:999px;font-size:10px;padding:2px 7px;font-weight:600;margin-left:6px;display:none}
+.status-tag{font-size:10px;padding:2px 8px;border-radius:999px;font-weight:600}
+.status-tag.approved{background:var(--success-bg);color:var(--success-text);border:1px solid var(--success-border)}
+.status-tag.dismissed{background:var(--surface2);color:var(--text3);border:1px solid var(--border)}
 .mini-badge{font-size:10px;padding:2px 7px;border-radius:999px;font-weight:600}
 .mini-badge.comun{background:var(--success-bg);color:var(--success-text);border:1px solid var(--success-border)}
 .mini-badge.premium{background:var(--gold-bg);color:var(--gold-text);border:1px solid var(--gold-border)}
@@ -266,6 +270,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <label class="form-label">Nota adicional <span style="font-weight:400;text-transform:none;color:var(--text3)">(opcional)</span></label>
         <textarea class="form-textarea" id="suggNote" placeholder="Cualquier detalle que pueda ayudar..."></textarea>
       </div>
+      <div class="form-group">
+        <label class="form-label">Tu contacto <span style="font-weight:400;text-transform:none;color:var(--text3)">(opcional, por si hay que consultarte algo)</span></label>
+        <input class="form-input" type="text" id="suggContact" placeholder="Email o WhatsApp" />
+      </div>
       <div id="suggMsg"></div>
       <button class="btn btn-primary" onclick="sendSuggestion()">Enviar sugerencia</button>
     </div>
@@ -288,6 +296,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="card" style="margin-bottom:1rem;border-color:var(--purple-border)">
         <div class="card-title" style="color:var(--purple-text)">
           💡 Sugerencias de usuarios <span class="sugg-count" id="suggCount">0</span>
+        </div>
+        <div class="tabs" style="margin-bottom:12px;width:fit-content">
+          <button class="tab active" id="suggTabPending" onclick="switchSuggView('pending')">Pendientes</button>
+          <button class="tab" id="suggTabHistory" onclick="switchSuggView('history')">Historial</button>
         </div>
         <div id="suggList"><div class="empty">Sin sugerencias pendientes. ✓</div></div>
       </div>
@@ -515,12 +527,13 @@ async function sendSuggestion(){
   const model=document.getElementById('suggModel').value.trim();
   const compat=document.getElementById('suggCompat').value.trim();
   const note=document.getElementById('suggNote').value.trim();
+  const contact=document.getElementById('suggContact').value.trim();
   const msgEl=document.getElementById('suggMsg');
   if(!model){ msgEl.innerHTML='<div class="msg msg-err">⚠ Ingresá el nombre de tu modelo.</div>'; return; }
   if(!suggTipo){ msgEl.innerHTML='<div class="msg msg-err">⚠ Seleccioná el tipo de vidrio.</div>'; return; }
   try{
-    await db.collection('suggestions').add({ model, tipo:suggTipo, compat, note, status:'pending', createdAt:firebase.firestore.FieldValue.serverTimestamp() });
-    document.getElementById('suggModel').value=''; document.getElementById('suggCompat').value=''; document.getElementById('suggNote').value='';
+    await db.collection('suggestions').add({ model, tipo:suggTipo, compat, note, contact, status:'pending', createdAt:firebase.firestore.FieldValue.serverTimestamp() });
+    document.getElementById('suggModel').value=''; document.getElementById('suggCompat').value=''; document.getElementById('suggNote').value=''; document.getElementById('suggContact').value='';
     suggTipo=null;
     document.getElementById('suggTipoComun').className='tipo-opt'; document.getElementById('suggTipoPremium').className='tipo-opt';
     msgEl.innerHTML='<div class="msg msg-ok">✓ Sugerencia enviada. ¡Gracias!</div>';
@@ -529,25 +542,55 @@ async function sendSuggestion(){
 }
 
 // ── Suggestions panel (admin) ──────────────────────────────────
+let suggView='pending';
+function switchSuggView(v){
+  suggView=v;
+  document.getElementById('suggTabPending').classList.toggle('active', v==='pending');
+  document.getElementById('suggTabHistory').classList.toggle('active', v==='history');
+  renderSuggList();
+}
+
 function renderSuggList(){
   const el=document.getElementById('suggList');
-  const pending=suggestions.filter(s=>s.status==='pending');
-  if(!pending.length){ el.innerHTML='<div class="empty">Sin sugerencias pendientes. ✓</div>'; return; }
-  el.innerHTML=pending.map(s=>{
-    const tipoBadge=s.tipo?`<span class="mini-badge ${s.tipo}">${s.tipo==='comun'?'🔲 Común':'⬛ Premium'}</span>`:'';
-    return `<div class="sugg-panel-item ${s.tipo||''}">
-      <div class="sugg-panel-header">
-        <div>
-          <div class="sugg-panel-models">${tipoBadge} 📱 <strong>${s.model}</strong>${s.compat?` → compatible con <strong>${s.compat}</strong>`:''}</div>
-          ${s.note?`<div class="sugg-panel-note">💬 ${s.note}</div>`:''}
+
+  if(suggView==='pending'){
+    const pending=suggestions.filter(s=>s.status==='pending');
+    if(!pending.length){ el.innerHTML='<div class="empty">Sin sugerencias pendientes. ✓</div>'; return; }
+    el.innerHTML=pending.map(s=>{
+      const tipoBadge=s.tipo?`<span class="mini-badge ${s.tipo}">${s.tipo==='comun'?'🔲 Común':'⬛ Premium'}</span>`:'';
+      const contactLine = s.contact ? `<div class="sugg-contact">📞 ${s.contact}</div>` : '';
+      return `<div class="sugg-panel-item ${s.tipo||''}">
+        <div class="sugg-panel-header">
+          <div>
+            <div class="sugg-panel-models">${tipoBadge} 📱 <strong>${s.model}</strong>${s.compat?` → compatible con <strong>${s.compat}</strong>`:''}</div>
+            ${s.note?`<div class="sugg-panel-note">💬 ${s.note}</div>`:''}
+            ${contactLine}
+          </div>
+          <div class="sugg-panel-actions">
+            <button class="btn btn-sm btn-success" onclick="approveSugg('${s.id}','${(s.model||'').replace(/'/g,"\\'")}','${(s.compat||'').replace(/'/g,"\\'")}','${s.tipo||''}')">✓ Usar</button>
+            <button class="btn btn-sm btn-danger" onclick="dismissSugg('${s.id}')">✕</button>
+          </div>
         </div>
-        <div class="sugg-panel-actions">
-          <button class="btn btn-sm btn-success" onclick="approveSugg('${s.id}','${(s.model||'').replace(/'/g,"\\'")}','${(s.compat||'').replace(/'/g,"\\'")}','${s.tipo||''}')">✓ Usar</button>
-          <button class="btn btn-sm btn-danger" onclick="dismissSugg('${s.id}')">✕</button>
+      </div>`;
+    }).join('');
+  } else {
+    const history=suggestions.filter(s=>s.status!=='pending');
+    if(!history.length){ el.innerHTML='<div class="empty">Sin historial todavía.</div>'; return; }
+    el.innerHTML=history.map(s=>{
+      const tipoBadge=s.tipo?`<span class="mini-badge ${s.tipo}">${s.tipo==='comun'?'🔲 Común':'⬛ Premium'}</span>`:'';
+      const statusBadge = s.status==='approved' ? `<span class="status-tag approved">✓ Usada</span>` : `<span class="status-tag dismissed">Descartada</span>`;
+      const contactLine = s.contact ? `<div class="sugg-contact">📞 ${s.contact}</div>` : '';
+      return `<div class="sugg-panel-item ${s.tipo||''}" style="opacity:.8">
+        <div class="sugg-panel-header">
+          <div>
+            <div class="sugg-panel-models">${tipoBadge} ${statusBadge} 📱 <strong>${s.model}</strong>${s.compat?` → compatible con <strong>${s.compat}</strong>`:''}</div>
+            ${s.note?`<div class="sugg-panel-note">💬 ${s.note}</div>`:''}
+            ${contactLine}
+          </div>
         </div>
-      </div>
-    </div>`;
-  }).join('');
+      </div>`;
+    }).join('');
+  }
 }
 async function approveSugg(id,model,compat,tipo){
   if(tipo) selectAdminTipo(tipo);
@@ -567,7 +610,7 @@ async function approveSugg(id,model,compat,tipo){
   }
   renderPendingList();
   renderLookup();
-  await dismissSugg(id);
+  try{ await db.collection('suggestions').doc(id).update({status:'approved'}); } catch(e){}
   showMsg('Datos cargados desde la sugerencia. Revisá abajo y guardá.','ok');
   document.getElementById('baseModelInput').scrollIntoView({behavior:'smooth',block:'center'});
 }
